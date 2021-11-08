@@ -21,35 +21,20 @@ const Main = () => {
   ]);
 
   useEffect(() => {
-    const shuffle = () => {
-      let currentIndex = game[2].boardArray.length,
-        randomIndex;
-
-      while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex--;
-
-        [game[2].boardArray[currentIndex], game[2].boardArray[randomIndex]] = [
-          game[2].boardArray[randomIndex],
-          game[2].boardArray[currentIndex],
-        ];
-      }
-
-      setGame([
-        { score: game[0].score },
-        { highscore: game[1].highscore },
-        {
-          boardArray: game[2].boardArray,
-        },
-      ]);
-    };
-
     const checkLoss = (e) => {
+      const isHighScore = () => {
+        if (game[0].score < game[1].highscore) {
+          return game[1].highscore;
+        } else {
+          return game[0].score;
+        }
+      };
+
       if (game[2].boardArray[e.target.id].clicked === true) {
         alert('lose');
         setGame([
           { score: 0 },
-          { highscore: game[0].score },
+          { highscore: isHighScore() },
           {
             boardArray: [
               { id: '0', clicked: false },
@@ -70,12 +55,26 @@ const Main = () => {
     };
 
     const fairMove = (e) => {
-      game[2].boardArray[e.target.id].clicked = true;
+      let arrayCopy = game[2].boardArray.slice();
+      arrayCopy[e.target.id].clicked = true;
+
+      let currentIndex = arrayCopy.length,
+        randomIndex;
+
+      while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        [arrayCopy[currentIndex], arrayCopy[randomIndex]] = [
+          arrayCopy[randomIndex],
+          arrayCopy[currentIndex],
+        ];
+      }
       setGame([
         { score: game[0].score + 1 },
         { highscore: game[1].highscore },
         {
-          boardArray: game[2].boardArray,
+          boardArray: arrayCopy,
         },
       ]);
     };
@@ -120,7 +119,6 @@ const Main = () => {
       if (checkWin() === true) {
         return;
       }
-      shuffle();
     };
 
     document
@@ -136,7 +134,6 @@ const Main = () => {
 
   return (
     <div className="main">
-      {console.log(game)}
       <Scoreboard currentScore={game[0].score} highscore={game[1].highscore} />
       <Gameboard pieces={game[2].boardArray} />
     </div>

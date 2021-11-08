@@ -1,10 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 const Header = () => {
-  const [,] = useState();
-
-  useEffect(() => {}, []);
-
   return (
     <div className="App-header">
       <div>Memory Game</div>

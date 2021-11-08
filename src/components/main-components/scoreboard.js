@@ -1,10 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 const Scoreboard = (props) => {
-  const [,] = useState();
-
-  useEffect(() => {}, []);
-
   const { currentScore, highscore } = props;
 
   return (
