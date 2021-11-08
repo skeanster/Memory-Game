@@ -12,7 +12,7 @@ const Main = () => {
         { id: 'Shiny-Shield', clicked: false },
         { id: 'Ace', clicked: false },
         { id: 'Castle', clicked: false },
-        { id: 'Pieced-Shield', clicked: false },
+        { id: 'Pierced-Shield', clicked: false },
         { id: 'Terraria', clicked: false },
         { id: 'Arrows', clicked: false },
         { id: 'Treasure', clicked: false },
@@ -31,7 +31,7 @@ const Main = () => {
       };
 
       if (game[2].boardArray[e.target.id].clicked === true) {
-        alert('lose');
+        alert('Not quite, try again!');
         setGame([
           { score: 0 },
           { highscore: isHighScore() },
@@ -41,7 +41,7 @@ const Main = () => {
               { id: 'Shiny-Shield', clicked: false },
               { id: 'Ace', clicked: false },
               { id: 'Castle', clicked: false },
-              { id: 'Pieced-Shield', clicked: false },
+              { id: 'Pierced-Shield', clicked: false },
               { id: 'Terraria', clicked: false },
               { id: 'Arrows', clicked: false },
               { id: 'Treasure', clicked: false },
@@ -90,7 +90,7 @@ const Main = () => {
         game[2].boardArray[6].clicked === true &&
         game[2].boardArray[7].clicked === true
       ) {
-        alert('win');
+        alert('You win!');
         setGame([
           { score: 0 },
           { highscore: 8 },
@@ -100,7 +100,7 @@ const Main = () => {
               { id: 'Shiny-Shield', clicked: false },
               { id: 'Ace', clicked: false },
               { id: 'Castle', clicked: false },
-              { id: 'Pieced-Shield', clicked: false },
+              { id: 'Pierced-Shield', clicked: false },
               { id: 'Terraria', clicked: false },
               { id: 'Arrows', clicked: false },
               { id: 'Treasure', clicked: false },
