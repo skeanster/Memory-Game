@@ -5,12 +5,12 @@ const Scoreboard = (props) => {
 
   useEffect(() => {}, []);
 
-  const { currentScore } = props;
+  const { currentScore, highscore } = props;
 
   return (
     <div className="scoreboard">
       <div>Current Score: {currentScore}</div>
-      <div>High Score: 0</div>
+      <div>High Score: {highscore}</div>
     </div>
   );
 };

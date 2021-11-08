@@ -3,81 +3,124 @@ import Scoreboard from './main-components/scoreboard';
 import Gameboard from './main-components/gameboard';
 
 const Main = () => {
-  const [score, setScore] = useState(0);
-  const [pieces, setPieces] = useState([
-    { id: '0', clicked: false },
-    { id: '1', clicked: false },
-    { id: '2', clicked: false },
-    { id: '3', clicked: false },
-    { id: '4', clicked: false },
-    { id: '5', clicked: false },
-    { id: '6', clicked: false },
-    { id: '7', clicked: false },
+  const [game, setGame] = useState([
+    { score: 0 },
+    { highscore: 0 },
+    {
+      boardArray: [
+        { id: '0', clicked: false },
+        { id: '1', clicked: false },
+        { id: '2', clicked: false },
+        { id: '3', clicked: false },
+        { id: '4', clicked: false },
+        { id: '5', clicked: false },
+        { id: '6', clicked: false },
+        { id: '7', clicked: false },
+      ],
+    },
   ]);
 
   useEffect(() => {
-    const upScore = () => {
-      setScore(score + 1);
-    };
-
-    document
-      .querySelectorAll('.gamePiece')
-      .forEach((piece) => piece.addEventListener('click', upScore));
-
-    return () => {
-      document
-        .querySelectorAll('.gamePiece')
-        .forEach((piece) => piece.removeEventListener('click', upScore));
-    };
-  }, [score]);
-
-  useEffect(() => {
     const shuffle = () => {
-      let currentIndex = pieces.length,
+      let currentIndex = game[2].boardArray.length,
         randomIndex;
 
       while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex--;
 
-        [pieces[currentIndex], pieces[randomIndex]] = [
-          pieces[randomIndex],
-          pieces[currentIndex],
+        [game[2].boardArray[currentIndex], game[2].boardArray[randomIndex]] = [
+          game[2].boardArray[randomIndex],
+          game[2].boardArray[currentIndex],
         ];
       }
 
-      setPieces(pieces);
+      setGame([
+        { score: game[0].score },
+        { highscore: game[1].highscore },
+        {
+          boardArray: game[2].boardArray,
+        },
+      ]);
     };
 
-    const checkLoss = (a) => {
-      if (pieces[a.target.id].clicked === true) {
+    const checkLoss = (e) => {
+      if (game[2].boardArray[e.target.id].clicked === true) {
         alert('lose');
+        setGame([
+          { score: 0 },
+          { highscore: game[0].score },
+          {
+            boardArray: [
+              { id: '0', clicked: false },
+              { id: '1', clicked: false },
+              { id: '2', clicked: false },
+              { id: '3', clicked: false },
+              { id: '4', clicked: false },
+              { id: '5', clicked: false },
+              { id: '6', clicked: false },
+              { id: '7', clicked: false },
+            ],
+          },
+        ]);
+        return true;
       } else {
         return;
       }
     };
 
-    const checkWin = (b) => {
+    const fairMove = (e) => {
+      game[2].boardArray[e.target.id].clicked = true;
+      setGame([
+        { score: game[0].score + 1 },
+        { highscore: game[1].highscore },
+        {
+          boardArray: game[2].boardArray,
+        },
+      ]);
+    };
+
+    const checkWin = () => {
       if (
-        pieces[0].clicked === true &&
-        pieces[1].clicked === true &&
-        pieces[2].clicked === true &&
-        pieces[3].clicked === true &&
-        pieces[4].clicked === true &&
-        pieces[5].clicked === true &&
-        pieces[6].clicked === true &&
-        pieces[7].clicked === true
+        game[2].boardArray[0].clicked === true &&
+        game[2].boardArray[1].clicked === true &&
+        game[2].boardArray[2].clicked === true &&
+        game[2].boardArray[3].clicked === true &&
+        game[2].boardArray[4].clicked === true &&
+        game[2].boardArray[5].clicked === true &&
+        game[2].boardArray[6].clicked === true &&
+        game[2].boardArray[7].clicked === true
       ) {
         alert('win');
+        setGame([
+          { score: 0 },
+          { highscore: 8 },
+          {
+            boardArray: [
+              { id: '0', clicked: false },
+              { id: '1', clicked: false },
+              { id: '2', clicked: false },
+              { id: '3', clicked: false },
+              { id: '4', clicked: false },
+              { id: '5', clicked: false },
+              { id: '6', clicked: false },
+              { id: '7', clicked: false },
+            ],
+          },
+        ]);
+        return true;
       }
     };
 
     const playTurn = (e) => {
-      checkLoss(e);
-      pieces[e.target.id].clicked = true;
-      checkWin(e);
+      if (checkLoss(e) === true) {
+        return;
+      }
+      fairMove(e);
+      if (checkWin() === true) {
+        return;
+      }
       shuffle();
-      console.log(pieces);
     };
 
     document
@@ -87,14 +130,15 @@ const Main = () => {
     return () => {
       document
         .querySelectorAll('.gamePiece')
-        .forEach((piece) => piece.addEventListener('click', playTurn));
+        .forEach((piece) => piece.removeEventListener('click', playTurn));
     };
-  }, [pieces]);
+  }, [game]);
 
   return (
     <div className="main">
-      <Scoreboard currentScore={score} />
-      <Gameboard pieces={pieces} />
+      {console.log(game)}
+      <Scoreboard currentScore={game[0].score} highscore={game[1].highscore} />
+      <Gameboard pieces={game[2].boardArray} />
     </div>
   );
 };
