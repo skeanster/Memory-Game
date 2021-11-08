@@ -14,7 +14,7 @@ const Gameboard = (props) => {
       {pieces.map((piece) => {
         return (
           <div key={piece.id} id={iterateId()} class="gamePiece">
-            <div class="piecePicture" id={'picture' + piece.id}></div>
+            <div class="piecePicture" id={piece.id}></div>
             <div class="pieceTitle">{piece.id}</div>
           </div>
         );
