@@ -1,5 +1,7 @@
 # Challenge your memory with this fun game!
 
+Check it out: [Live Demo](https://skeanster.github.io/Memory-Game/) :point_left:
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Only a 1000 IQ person could beat this single page web application built with React
